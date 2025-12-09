@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just a gift...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:ital@0;1&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'EB Garamond', serif;
+            background: linear-gradient(to bottom, #1a0f0f 0%, #0a0505 100%);
+            color: #d4af37;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .main-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .main-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(212, 175, 55, 0.03) 2px, rgba(212, 175, 55, 0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212, 175, 55, 0.03) 2px, rgba(212, 175, 55, 0.03) 4px);
+            pointer-events: none;
+        }
+        
+        .title-container {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.title {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5em;
+    color: #d4af37;
+    text-align: center;
+    margin-bottom: 20px;  /* Changed from 60px */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 4px;
+    border-bottom: 2px solid #8b0000;
+    padding-bottom: 20px;
+    animation: fadeIn 1.5s ease-in;
+}
+
+.subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.5em;
+    color: #a89968;
+    font-style: italic;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 2s ease-in;
+}
+
+
+        .characters-container {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        
+        .character {
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            animation: slideUp 1s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .character:nth-child(1) { animation-delay: 0.2s; }
+        .character:nth-child(2) { animation-delay: 0.4s; }
+        .character:nth-child(3) { animation-delay: 0.6s; }
+        
+        .character img {
+            height: 250px;
+            width: auto;
+            transition: all 0.4s ease;
+        }
+        
+        .character:hover img {
+            transform: scale(1.1) translateY(-10px);
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8));
+            
+        }
+        
+        .character:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            animation: glow 1.5s infinite;
+        }
+        
+.side-images {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    pointer-events: none;  
+    z-index: 1;
+}
+
+.side-image {
+    position: absolute;
+    height: 50vh;
+    width: auto;
+    bottom: -10vh;
+    cursor: pointer;
+    pointer-events: auto; 
+    transition: all 0.4s ease; 
+}
+
+.side-image.left {
+    left: 0vh;
+    cursor: pointer;
+}
+
+.side-image.right {
+    right: -10vh;
+    cursor: pointer;
+}
+.side-image:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8));
+    transition: all 0.4s ease;
+}
+        
+        .poem-page {
+            display: none;
+            min-height: 100vh;
+            padding: 60px 40px;
+            background: linear-gradient(to bottom, #e8d7b8 0%, #c9b99a 100%);
+            position: relative;
+        }
+        
+        .poem-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23c9b99a" width="100" height="100"/><path d="M0 0 L50 50 L0 100 L50 50 L100 100 L100 0 L50 50 L0 0" fill="none" stroke="%23a89968" stroke-width="0.5" opacity="0.3"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .papyrus-content {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(250, 245, 230, 0.9);
+            padding: 60px;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                inset 0 0 60px rgba(139, 0, 0, 0.05);
+            border: 1px solid #a89968;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .papyrus-content::before,
+        .papyrus-content::after {
+            content: '';
+            position: absolute;
+            color: #8b0000;
+            font-size: 2em;
+        }
+        
+        .papyrus-content::before {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .papyrus-content::after {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .poem-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            color: #8b0000;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+        }
+        
+        .poem-text {
+            font-size: 1.4em;
+            line-height: 2;
+            color: #2a2a2a;
+            text-align: center;
+            white-space: pre-line;
+            font-style: italic;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            font-family: 'Cinzel', serif;
+            background: #8b0000;
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+        
+        .back-button:hover {
+            background: #a00000;
+            transform: translateX(-5px);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2em;
+            }
+            
+            .characters-container {
+                gap: 40px;
+            }
+            
+            .character img {
+                height: 180px;
+            }
+            
+            .papyrus-content {
+                padding: 40px 30px;
+            }
+            
+            .poem-title {
+                font-size: 1.8em;
+            }
+            
+            .poem-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="mainPage" class="main-page">
+    <div class="title-container">
+        <h1 class="title">Just a gift...</h1>
+        <p class="subtitle">Thanks for everything</p>
+    </div>
+    
+    <div class="characters-container">
+            <div class="character" data-character="1">
+                <img src="Kinich.png" alt="Character 1">
+            </div>
+            <div class="character" data-character="2">
+                <img src="horse.png" alt="Character 2">
+            </div>
+            <div class="character" data-character="3">
+                <img src="Arlecchino.png" alt="Character 3">
+            </div>
+        </div>
+        <div style="height: 200px;"></div>
+
+        <div class="side-images">
+            <img src="james.png" alt="James" class="side-image left" data-character="4">
+            <img src="suri.png" alt="Suri" class="side-image right" data-character="5">
+        </div>      
+    </div>
+
+    <div id="poem1" class="poem-page">
+        <button class="back-button" onclick="goBack()">Return</button>
+        <div class="papyrus-content">
+            <h2 class="poem-title">Silence</h2>
+            <p class="poem-text">
+Silently I hear,
+As noisy screams 
+Fill my ears with words
+That I barely understand.
+
+Neither stands back,
+Both want truth,
+Both think are right,
+Neither truly is.
+
+Understanding now,
+As they fight
+To their death inside,
+Silently I watch.
+            </p>
+        </div>
+    </div>
+
+    <div id="poem2" class="poem-page">
+        <button class="back-button" onclick="goBack()">Return</button>
+        <div class="papyrus-content">
+            <h2 class="poem-title">Proud</h2>
+            <p class="poem-text">
+Near a river
+An indomitable soul
+Drank secure, 
+As an arrow glowed behind.
+
+And suddenly
+All the birds flew away,
+As the water
+Got dyed in red.
+
+The soul stopped drinking,
+And looking back, 
+There was a man,
+And an arrow through his neck.
+            </p>
+        </div>
+    </div>
+
+    <div id="poem3" class="poem-page">
+        <button class="back-button" onclick="goBack()">Return</button>
+        <div class="papyrus-content">
+            <h2 class="poem-title">The Moon</h2>
+            <p class="poem-text">
+The sun looked down,
+As a red figure rises,
+Proud and sure,
+Severe and high.
+
+And for a moment,
+As such moon glowed 
+With rising might,
+The sun stood pensive.
+            </p>
+        </div>
+    </div>
+
+    <div id="poem4" class="poem-page">
+    <button class="back-button" onclick="goBack()">Return</button>
+    <div class="papyrus-content">
+        <h2 class="poem-title">Gris</h2>
+        <p class="poem-text">
+In deep darkness
+My heart cries alone,
+For it is helpless in such a world
+He wasn’t meant to be part of.
+
+And while I cough
+Weak and whining,
+A hand grabs my cloth,
+And with warmth, finally,
+
+I can close my eyes.
+
+        </p>
+    </div>
+</div>
+
+<div id="poem5" class="poem-page">
+    <button class="back-button" onclick="goBack()">Return</button>
+    <div class="papyrus-content">
+        <h2 class="poem-title">The End</h2>
+        <p class="poem-text">
+At the end of the world
+There was an angel,
+In front of the everlasting abyss,
+With its little servant.
+
+They were the last who stood,
+And for the last night
+Before the time would end,
+A last order gave:
+
+“Bring me now
+The purest souls
+To sing tonight
+One last time”
+
+And back it got 
+A heart of stone
+Tough and heavy 
+As the servant said:
+
+“All the souls are gone
+In the depth of Tartarus;
+Only this survived, as so
+Strong the world forged her to be”
+
+And so she sang.
+
+        </p>
+    </div>
+</div>
+
+    <script>
+        
+        let usedMessages = [];
+    
+        
+        document.querySelectorAll('.character').forEach(char => {
+            char.addEventListener('click', function() {
+                const charNum = this.getAttribute('data-character');
+                document.getElementById('mainPage').style.display = 'none';
+                document.getElementById('poem' + charNum).style.display = 'block';
+            });
+        });
+        document.querySelectorAll('.side-image').forEach(img => {
+    img.addEventListener('click', function() {
+        const charNum = this.getAttribute('data-character');
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('poem' + charNum).style.display = 'block';
+    });
+});
+        
+        function goBack() {
+            document.querySelectorAll('.poem-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById('mainPage').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
